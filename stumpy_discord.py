@@ -27,11 +27,11 @@ discord_idx = np.argsort(mp[:, 0])[-1]
 
 print(f"The discord is located at index {discord_idx}")
 
-'''
+
 nearest_neighbor_distance = mp[discord_idx, 0]
 
 print(f"The nearest neighbor subsequence to this discord is {nearest_neighbor_distance} units away")
-'''
+
 
 fig, axs = plt.subplots(2, sharex=True, gridspec_kw={'hspace': 0})
 plt.suptitle('Discord (Anomaly/Novelty) Discovery', fontsize='30')
