@@ -36,7 +36,7 @@ print(f"The nearest neighbor subsequence to this discord is {nearest_neighbor_di
 fig, axs = plt.subplots(2, sharex=True, gridspec_kw={'hspace': 0})
 plt.suptitle('Discord (Anomaly/Novelty) Discovery', fontsize='30')
 
-'''
+######
 axs[0].plot(steam_df['steam flow'].values)
 axs[0].set_ylabel('Steam Flow', fontsize='20')
 rect = Rectangle((discord_idx, 0), m, 40, facecolor='lightgrey')
@@ -120,4 +120,3 @@ plt.xticks(np.arange(0, taxi_df.shape[0], (48*DAY_MULTIPLIER)/2), x_axis_labels)
 plt.xticks(rotation=75)
 plt.suptitle('STUMP with Varying Window Sizes', fontsize='30')
 plt.show()
-'''
