@@ -28,15 +28,14 @@ discord_idx = np.argsort(mp[:, 0])[-1]
 print(f"The discord is located at index {discord_idx}")
 
 
+
 nearest_neighbor_distance = mp[discord_idx, 0]
 
 print(f"The nearest neighbor subsequence to this discord is {nearest_neighbor_distance} units away")
 
-
 fig, axs = plt.subplots(2, sharex=True, gridspec_kw={'hspace': 0})
 plt.suptitle('Discord (Anomaly/Novelty) Discovery', fontsize='30')
 
-######
 axs[0].plot(steam_df['steam flow'].values)
 axs[0].set_ylabel('Steam Flow', fontsize='20')
 rect = Rectangle((discord_idx, 0), m, 40, facecolor='lightgrey')
@@ -44,10 +43,12 @@ axs[0].add_patch(rect)
 axs[1].set_xlabel('Time', fontsize ='20')
 axs[1].set_ylabel('Matrix Profile', fontsize='20')
 axs[1].axvline(x=discord_idx, linestyle="dashed")
+'''
 axs[1].plot(mp[:, 0])
 plt.show()
+'''
 
-
+'''
 taxi_df = pd.read_csv("https://zenodo.org/record/4276428/files/STUMPY_Basics_Taxi.csv?download=1")
 taxi_df['value'] = taxi_df['value'].astype(np.float64)
 taxi_df['timestamp'] = pd.to_datetime(taxi_df['timestamp'], format='%Y-%m-%d %H:%M:%S')
@@ -120,3 +121,5 @@ plt.xticks(np.arange(0, taxi_df.shape[0], (48*DAY_MULTIPLIER)/2), x_axis_labels)
 plt.xticks(rotation=75)
 plt.suptitle('STUMP with Varying Window Sizes', fontsize='30')
 plt.show()
+
+'''
