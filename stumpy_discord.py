@@ -17,7 +17,7 @@ plt.suptitle('Steamgen Dataset', fontsize='30')
 plt.xlabel('Time', fontsize ='20')
 plt.ylabel('Steam Flow', fontsize='20')
 plt.plot(steam_df['steam flow'].values)
-plt.show()
+#plt.show()
 
 m = 640
 mp = stumpy.stump(steam_df['steam flow'], m)
@@ -43,10 +43,10 @@ axs[0].add_patch(rect)
 axs[1].set_xlabel('Time', fontsize ='20')
 axs[1].set_ylabel('Matrix Profile', fontsize='20')
 axs[1].axvline(x=discord_idx, linestyle="dashed")
-'''
 axs[1].plot(mp[:, 0])
+
 plt.show()
-'''
+
 
 '''
 taxi_df = pd.read_csv("https://zenodo.org/record/4276428/files/STUMPY_Basics_Taxi.csv?download=1")
