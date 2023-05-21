@@ -48,12 +48,13 @@ axs[1].plot(mp[:, 0])
 plt.show()
 
 
-'''
+
 taxi_df = pd.read_csv("https://zenodo.org/record/4276428/files/STUMPY_Basics_Taxi.csv?download=1")
 taxi_df['value'] = taxi_df['value'].astype(np.float64)
 taxi_df['timestamp'] = pd.to_datetime(taxi_df['timestamp'], format='%Y-%m-%d %H:%M:%S')
 taxi_df.head()
 
+'''
 # This code is going to be utilized to control the axis labeling of the plots
 DAY_MULTIPLIER = 7  # Specify for the amount of days you want between each labeled x-axis tick
 
