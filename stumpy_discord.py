@@ -54,7 +54,6 @@ taxi_df['value'] = taxi_df['value'].astype(np.float64)
 taxi_df['timestamp'] = pd.to_datetime(taxi_df['timestamp'], format='%Y-%m-%d %H:%M:%S')
 taxi_df.head()
 
-'''
 # This code is going to be utilized to control the axis labeling of the plots
 DAY_MULTIPLIER = 7  # Specify for the amount of days you want between each labeled x-axis tick
 
@@ -96,6 +95,7 @@ plt.xticks(rotation=75)
 plt.minorticks_on()
 plt.show()
 
+'''
 #STUMP WITH DIFFERENT WINDOWS SIZING
 days_dict ={
   "Half-Day": 24,
