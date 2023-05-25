@@ -48,7 +48,7 @@ axs[1].plot(mp[:, 0])
 plt.show()
 
 
-
+'''
 taxi_df = pd.read_csv("https://zenodo.org/record/4276428/files/STUMPY_Basics_Taxi.csv?download=1")
 taxi_df['value'] = taxi_df['value'].astype(np.float64)
 taxi_df['timestamp'] = pd.to_datetime(taxi_df['timestamp'], format='%Y-%m-%d %H:%M:%S')
@@ -95,7 +95,7 @@ plt.xticks(rotation=75)
 plt.minorticks_on()
 plt.show()
 
-'''
+
 #STUMP WITH DIFFERENT WINDOWS SIZING
 days_dict ={
   "Half-Day": 24,
