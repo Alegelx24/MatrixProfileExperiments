@@ -8,7 +8,7 @@ import datetime as dt
 
 
 #steam_df = pd.read_csv("https://zenodo.org/record/4273921/files/STUMPY_Basics_steamgen.csv?download=1")
-steam_df = pd.read_csv("/Users/aleg2/Desktop/real_5.csv")
+steam_df = pd.read_csv("/Users/aleg2/Desktop/MatrixProfileExperiments/ydata-labeled-time-series-anomalies-v1_0/A4Benchmark/A4Benchmark-TS1.csv")
 
 steam_df.head()
 
@@ -35,7 +35,7 @@ print(f"The nearest neighbor subsequence to this discord is {nearest_neighbor_di
 fig, axs = plt.subplots(2, sharex=True, gridspec_kw={'hspace': 0})
 plt.suptitle('Discord (Anomaly/Novelty) Discovery', fontsize='30')
 
-axs[0].plot(steam_df['steam flow'].values)
+axs[0].plot(steam_df.values)
 axs[0].set_ylabel('Steam Flow', fontsize='20')
 rect = Rectangle((discord_idx, 0), m, 40, facecolor='lightgrey')
 axs[0].add_patch(rect)
@@ -43,5 +43,7 @@ axs[1].set_xlabel('Time', fontsize ='20')
 axs[1].set_ylabel('Matrix Profile', fontsize='20')
 axs[1].axvline(x=discord_idx, linestyle="dashed")
 axs[1].plot(mp[:, 0])
+
+plt.savefig("./images/min_DCF_C_QuadraticSVM_eval_raw.png")
 
 plt.show()
