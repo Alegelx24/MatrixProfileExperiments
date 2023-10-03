@@ -15,7 +15,7 @@ def create_csv_with_second_column(input_file, output_file):
         writer.writerows(data_to_write)
 
 if __name__ == "__main__":
-    input_csv_filename = "/Users/aleg2/Desktop/real_5.csv"  # Inserisci il nome del file CSV di partenza
-    output_csv_filename = "/Users/aleg2/Desktop/real_5_clean.csv"  # Inserisci il nome del file CSV di destinazione
+    input_csv_filename = "/Users/aleg2/Desktop/merged_A1Benchmark.csv"  # Inserisci il nome del file CSV di partenza
+    output_csv_filename = "/Users/aleg2/Desktop/merged_A1Benchmark_clean.csv"  # Inserisci il nome del file CSV di destinazione
 
     create_csv_with_second_column(input_csv_filename, output_csv_filename)
