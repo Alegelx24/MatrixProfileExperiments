@@ -2,10 +2,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import ast  # To convert stringified lists to actual lists
 
-csv_path = '/Users/aleg2/Desktop/MatrixProfileExperiments/A1_merged_NORM_top60.csv'
+csv_path = "/Users/aleg2/Downloads/top60_raw_kpi_subsampled.csv"
 data = pd.read_csv(csv_path)
 
-csv_path_real = '/Users/aleg2/Desktop/MatrixProfileExperiments/all_anomalies_a1_merged.csv'
+csv_path_real = "/Users/aleg2/Downloads/anomalies_kpi_0_1.csv"
 data_real = pd.read_csv(csv_path_real)
 
 data['Positions'] = data['Positions'].apply(ast.literal_eval)
@@ -23,6 +23,6 @@ for index, row in data.iterrows():
     for val in data_real['value']:
         plt.axvline(x=val, color='green', linestyle='-', linewidth=0.5)
     
-    plt.savefig(f"scatter_plot_L={row['SubsequenceLength']}_start={row['CurrentIndex']}.png" )
+    plt.savefig(f"KPI_scatter_plot_L={row['SubsequenceLength']}_start={row['CurrentIndex']}.png" )
     
     #plt.show()
