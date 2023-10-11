@@ -5,7 +5,7 @@ import ast  # To convert stringified lists to actual lists
 csv_path = "/Users/aleg2/Downloads/top60_raw_kpi_subsampled.csv"
 data = pd.read_csv(csv_path)
 
-csv_path_real = "/Users/aleg2/Downloads/anomalies_kpi_0_1.csv"
+csv_path_real = "/Users/aleg2/Downloads/anomalies_KPI_subsampled.csv"
 data_real = pd.read_csv(csv_path_real)
 
 data['Positions'] = data['Positions'].apply(ast.literal_eval)
