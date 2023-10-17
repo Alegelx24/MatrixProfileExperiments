@@ -8,7 +8,7 @@ def create_csv_with_second_column(input_file, output_file):
 
         data_to_write = []
         for row in reader:
-                data_to_write.append([row[1]])  # Add only the data from the second column
+                data_to_write.append([row[2]])  # Add only the data from the second column
 
     with open(output_file, 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
@@ -29,7 +29,7 @@ def process_files_in_directory(input_folder, output_folder):
             create_csv_with_second_column(input_file, output_file)
 
 if __name__ == "__main__":
-    input_folder = "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged"  # Specify the input folder path
-    output_folder = "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/"  # Specify the output folder path
+    input_folder = "/Users/aleg2/Desktop/MatrixProfileExperiments/"  # Specify the input folder path
+    output_folder = "/Users/aleg2/Desktop/"  # Specify the output folder path
 
     process_files_in_directory(input_folder, output_folder)

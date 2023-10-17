@@ -3,7 +3,7 @@ import numpy as np
 
 # Load your time series data
 # Assume 'value' is the column that contains your time series data
-df = pd.read_csv('/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/merged_A1Benchmark.csv')
+df = pd.read_csv("/Users/aleg2/Desktop/KPI dataset/kpi_train_and_label_subsampled.csv")
 
 # Function to perform Z-score normalization
 def zscore_normalize(series):
