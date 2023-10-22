@@ -281,7 +281,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load data
-    time_series = np.loadtxt("data/samples/BourkeStreetMall.txt")
+    time_series = np.loadtxt("/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/normalized_A1_merged_clean.csv")
 
     # Run DAMP
     DAMP_2_0(

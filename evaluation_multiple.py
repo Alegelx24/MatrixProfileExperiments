@@ -1,6 +1,5 @@
 import ast
 import pandas as pd
-from pprint import pprint
 
 def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolerance=50):
 
@@ -9,11 +8,14 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
     
     real_indices = real_anomalies_df['value'].tolist()
     
-    top60_df['Positions'] = top60_df['Positions'].apply(lambda x: ast.literal_eval(x))
-    
+    #top60_df['Positions'] = top60_df['Positions'].apply(lambda x: ast.literal_eval(x))
+    #top60_df['Positions'] = top60_df['Positions'].str.split(',').apply(lambda x: [int(i) for i in x])
+    top60_df['Positions'] = top60_df['Positions'].str.strip('[]')
+    top60_df['Positions'] = top60_df['Positions'].str.split(',').apply(lambda x: [int(i) for i in x])
+
     unique_configs = top60_df.drop_duplicates(subset=['SubsequenceLength', 'CurrentIndex'])
     
-    results = {}
+    results_list = []
     
     for _, config in unique_configs.iterrows():
         subseq_len = config['SubsequenceLength']
@@ -58,15 +60,21 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
         f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) != 0 else 0
         
         # Store results
-        config_key = f"Subseq_len: {subseq_len}, Curr_idx: {curr_idx}"
-        results[config_key] = {
+        results_list.append({
+            "SubsequenceLength": subseq_len,
+            "CurrentIndex": curr_idx,
             "Precision": precision,
             "Recall": recall,
             "F1-Score": f1_score
-        }
+        })
     
-    return results
+    # Convert the results list to DataFrame and save as CSV
+    results_df = pd.DataFrame(results_list)
+    results_df.to_csv("evaluation_results_KPI_NORM_half.csv", index=False)
+    
+    return results_df
+
+
 
 if __name__ == "__main__":
-    config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/A1_merged_NORM_top60.csv", "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/all_anomalies_a1_merged.csv")
-    pprint(config_results_v2)
+    config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/KPI dataset/Top60_half_KPI_NORM.csv", "/Users/aleg2/Desktop/KPI dataset/anomalies_KPI_subsampled.csv")
