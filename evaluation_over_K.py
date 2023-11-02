@@ -9,7 +9,8 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
     for K in K_values:
         top60_df = pd.read_csv(top60_file_path)  # Re-read the CSV for each K
         # Convert Positions column to list of integers based on K value
-        top60_df['Positions'] = top60_df['Positions'].str.strip('[]').str.split(',').apply(lambda x: [int(i) for i in x[:K]])
+        #top60_df['Positions'] = top60_df['Positions'].str.strip('[]').str.split(',').apply(lambda x: [int(i) for i in x[:K]])
+        top60_df['Positions'] = top60_df['Positions'].str.split(';').apply(lambda x: [int(i) for i in x[:K]])
 
         unique_configs = top60_df.drop_duplicates(subset=['SubsequenceLength', 'CurrentIndex'])
 
@@ -42,13 +43,13 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
             recall = TP / (TP + FN) if TP + FN else 0
 
             mrr_values = []
-            for r_idx in real_indices:
-                for rank, p_idx in enumerate(predicted_indices, start=1):
+            for p_idx in predicted_indices:
+                for rank, r_idx in enumerate(real_indices, start=1):
                     if abs(p_idx - r_idx) <= tolerance:
                         mrr_values.append(1 / rank)
                         break
 
-            mrr = sum(mrr_values) / len(real_indices) if mrr_values else 0
+            mrr = sum(mrr_values) / len(predicted_indices) if mrr_values else 0
 
             all_results_list.append({
                 "SubsequenceLength": subseq_len,
@@ -61,12 +62,12 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
 
     # Convert the all_results_list to DataFrame and save as CSV
     all_results_df = pd.DataFrame(all_results_list)
-    all_results_df.to_csv("evaluation_results_KPI_NORM_over_K_values.csv", index=False)
+    all_results_df.to_csv("evaluation_results_A1_Raw_halftraining_over_K_values.csv", index=False)
 
     return all_results_df
 
 if __name__ == "__main__":
     config_results_v2 = evaluate_configurations_v2(
-        "/Users/aleg2/Desktop/KPI dataset/top60_raw_kpi_subsampled.csv", 
-        "/Users/aleg2/Desktop/KPI dataset/anomalies_KPI_subsampled.csv"
+        "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/Top60_a1_merged_raw_halftraining.csv", 
+        "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/all_anomalies_a1_merged.csv"
     )
