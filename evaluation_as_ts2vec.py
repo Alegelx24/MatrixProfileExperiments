@@ -28,14 +28,22 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
         for k in ks:
             predicted_indices = all_predicted_indices[:k]
             TP, FP, FN = 0, 0, 0
+            reciprocal_ranks = []
+
             predicted_set = set(predicted_indices)
 
-            # Update TP and FN based on new logic
+            # Check for TP, FN, and reciprocal ranks
             for sequence in real_sequences:
-                if any(any(r_idx + i in predicted_set for i in range(-tolerance, tolerance + 1)) for r_idx in sequence):
-                    TP += len(sequence)
-                else:
-                    FN += len(sequence)
+                found_sequence = any(any(r_idx + i in predicted_set for i in range(-tolerance, tolerance + 1)) for r_idx in sequence)
+                TP += len(sequence) if found_sequence else 0
+                FN += len(sequence) if not found_sequence else 0
+
+                # Check for the earliest occurrence within tolerance for MRR
+                for r_idx in sequence:
+                    for rank, p_idx in enumerate(predicted_indices, start=1):
+                        if abs(r_idx - p_idx) <= tolerance:
+                            reciprocal_ranks.append(1 / rank)
+                            break
 
             # Update FP
             FP = sum(1 for p_idx in predicted_indices if not any(p_idx + i in real_indices for i in range(-tolerance, tolerance + 1)))
@@ -44,18 +52,21 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
             recall = TP / (TP + FN) if (TP + FN) > 0 else 0
             f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
+            # Calculate MRR
+            mrr = sum(reciprocal_ranks) / len(reciprocal_ranks) if reciprocal_ranks else 0
+
             results_list.append({
                 "SubsequenceLength": subseq_len,
                 "CurrentIndex": curr_idx,
                 "k": k,
                 "Precision": precision,
                 "Recall": recall,
-                "F1-Score": f1_score
+                "MRR": mrr  # Added MRR
             })
 
     results_df = pd.DataFrame(results_list)
-    results_df.to_csv("evaluation_results_KPI_NORM_half_overK.csv", index=False)
+    results_df.to_csv("eval_as_ts2vec_A1_raw.csv", index=False)
     return results_df
 
 if __name__ == "__main__":
-    config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/KPI dataset/top60_raw_kpi_subsampled.csv", "/Users/aleg2/Desktop/KPI dataset/anomalies_KPI_subsampled.csv")
+    config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/A1_merged_raw_top60.csv", "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/all_anomalies_a1_merged.csv")

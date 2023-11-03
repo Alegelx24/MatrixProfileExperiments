@@ -36,7 +36,7 @@ def plot_timeseries(input_file, output_directory):
 
 def main():
     # Define input and output directories
-    input_directory = '/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged'  # Replace with the path to your input folder containing CSV files
+    input_directory = "/Users/aleg2/Desktop/MatrixProfileExperiments/prova-evaluation.csv"  # Replace with the path to your input folder containing CSV files
     output_directory = '/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged_plot'  # Replace with the path to your output folder for saving images
 
     # Create the output directory if it doesn't exist
