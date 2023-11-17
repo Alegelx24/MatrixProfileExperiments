@@ -20,7 +20,7 @@ def merge_all_csv_files_in_folder(folder_path, output_file):
     merged_df.to_csv(output_file, index=False)
 
 if __name__ == "__main__":
-    folder_path = "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1Benchmark"  # Replace with the path to your folder containing CSV files
-    output_csv_file = "/Users/aleg2/Desktop/merged_A1Benchmark.csv"  # Replace with the desired output file name
+    folder_path = "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A2Benchmark_clean"  # Replace with the path to your folder containing CSV files
+    output_csv_file = "/Users/aleg2/Desktop/A2Benchmark_all.csv"  # Replace with the desired output file name
 
     merge_all_csv_files_in_folder(folder_path, output_csv_file)

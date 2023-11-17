@@ -39,20 +39,18 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
                 FN += len(sequence) if not found_sequence else 0
 
                 # Check for the earliest occurrence within tolerance for MRR
-                for r_idx in sequence:
-                    for rank, p_idx in enumerate(predicted_indices, start=1):
+                for rank, p_idx in enumerate(predicted_indices, start=1):
+                    for r_idx in sequence:
                         if abs(r_idx - p_idx) <= tolerance:
                             reciprocal_ranks.append(1 / rank)
                             break
 
-            # Update FP
             FP = sum(1 for p_idx in predicted_indices if not any(p_idx + i in real_indices for i in range(-tolerance, tolerance + 1)))
 
             precision = TP / (TP + FP) if (TP + FP) > 0 else 0
             recall = TP / (TP + FN) if (TP + FN) > 0 else 0
             f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
 
-            # Calculate MRR
             mrr = sum(reciprocal_ranks) / len(reciprocal_ranks) if reciprocal_ranks else 0
 
             results_list.append({
@@ -61,7 +59,7 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
                 "k": k,
                 "Precision": precision,
                 "Recall": recall,
-                "MRR": mrr  # Added MRR
+                "MRR": mrr 
             })
 
     results_df = pd.DataFrame(results_list)
