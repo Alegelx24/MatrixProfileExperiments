@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the CSV file
-file_path = "/Users/aleg2/Desktop/MatrixProfileExperiments/eval_as_ts2vec_kpi_raw.csv"  # Replace with your file path
+file_path = "/Users/aleg2/Desktop/MatrixProfileExperiments/eval_as_ts2vec_kpi_complete_raw.csv"  # Replace with your file path
 data = pd.read_csv(file_path)
 
 # Convert 'Precision', 'Recall', and 'MRR' to floats
@@ -15,7 +15,7 @@ grouped = data.groupby(['SubsequenceLength', 'CurrentIndex'])
 
 # Plot for each group
 for (subseq_length, current_index), group in grouped:
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(10, 6), dpi=300)
 
     # Plotting
     plt.plot(group['K'], group['Precision'], label='Precision', marker='o')
@@ -29,5 +29,5 @@ for (subseq_length, current_index), group in grouped:
     plt.legend()
     plt.grid(True)
     
-    plot_filename = f'plots_evaluation_KPI_raw/KPI_raw_Subseq_{subseq_length}_Index_{current_index}.png'
+    plot_filename = f'plots/KPI_raw_Complete_Subseq_{subseq_length}_Index_{current_index}.png'
     plt.savefig(plot_filename)

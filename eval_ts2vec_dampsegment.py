@@ -6,7 +6,7 @@ def group_consecutive_numbers(numbers):
     """ Group consecutive numbers into sublists. """
     return [list(map(itemgetter(1), g)) for k, g in groupby(enumerate(numbers), lambda x: x[0] - x[1])]
 
-def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolerance=50, K=60):
+def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, K=60):
     top60_df = pd.read_csv(top60_file_path)
     real_anomalies_df = pd.read_csv(real_anomalies_file_path)
     real_indices = real_anomalies_df['value'].tolist()
@@ -30,22 +30,20 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
             TP, FP, FN = 0, 0, 0
             reciprocal_ranks = []
 
-            predicted_set = set(predicted_indices)
-
-            # Check for TP, FN, and reciprocal ranks
+            # Adjusted logic for True Positives (TP)
             for sequence in real_sequences:
-                found_sequence = any(any(r_idx + i in predicted_set for i in range(-tolerance, tolerance + 1)) for r_idx in sequence)
+                sequence_end = sequence[0] + subseq_len
+                found_sequence = any(p_idx >= sequence[0] and p_idx < sequence_end for p_idx in predicted_indices)
                 TP += len(sequence) if found_sequence else 0
                 FN += len(sequence) if not found_sequence else 0
 
-                # Check for the earliest occurrence within tolerance for MRR
+                # Check for the earliest occurrence within subsequence length for MRR
                 for rank, p_idx in enumerate(predicted_indices, start=1):
-                    for r_idx in sequence:
-                        if abs(r_idx - p_idx) <= tolerance:
-                            reciprocal_ranks.append(1 / rank)
-                            break
+                    if p_idx >= sequence[0] and p_idx < sequence_end:
+                        reciprocal_ranks.append(1 / rank)
+                        break
 
-            FP = sum(1 for p_idx in predicted_indices if not any(p_idx + i in real_indices for i in range(-tolerance, tolerance + 1)))
+            FP = sum(1 for p_idx in predicted_indices if not any(p_idx >= r_idx and p_idx < r_idx + subseq_len for r_idx in real_indices))
 
             precision = TP / (TP + FP) if (TP + FP) > 0 else 0
             recall = TP / (TP + FN) if (TP + FN) > 0 else 0
@@ -63,10 +61,9 @@ def evaluate_configurations_v2(top60_file_path, real_anomalies_file_path, tolera
             })
 
     results_df = pd.DataFrame(results_list)
-    results_df.to_csv("eval_as_ts2vec_kpi_complete_raw.csv", index=False)
+    results_df.to_csv("eval_as_ts2vec_KPI_with segment.csv", index=False)
     return results_df
 
 if __name__ == "__main__":
-    #config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/yahoo_complete_raw_Top60.csv", "/Users/aleg2/Downloads/all_anomalies_yahoo_complete.csv")
-
+    #config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/A1_merged_raw_top60.csv", "/Users/aleg2/Desktop/ydata-labeled-time-series-anomalies-v1_0/A1_merged/all_anomalies_a1_merged.csv")
     config_results_v2 = evaluate_configurations_v2("/Users/aleg2/Desktop/KPI dataset/TopK_kpi_complete.csv", "/Users/aleg2/Desktop/KPI dataset/all_anomalies_kpi_complete.csv")
